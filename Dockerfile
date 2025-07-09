@@ -1,26 +1,23 @@
-FROM python:3.10-slim
+FROM python:3.10
 
 WORKDIR /app
 
 ENV PIP_NO_CACHE_DIR=1
 
-# Install sistem library (untuk opencv & pillow & lainnya)
+# Install dependencies sistem (wajib untuk opencv & pillow)
 RUN apt-get update && apt-get install -y \
-    build-essential \
     libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
+# Salin file requirements
 COPY requirements.txt .
 
-# Upgrade pip dan tools build Python
+# Upgrade pip + tools dan install Python package
 RUN pip install --upgrade pip setuptools wheel
+RUN pip install -r requirements.txt
 
-# Install semua paket Python
-RUN pip install -r requirements.txt --no-cache-dir --verbose
-
-# Salin sisa kode
+# Salin semua kode ke container
 COPY . .
 
 EXPOSE 5000
