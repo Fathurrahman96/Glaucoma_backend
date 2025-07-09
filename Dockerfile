@@ -1,5 +1,5 @@
 # Ganti base image awalmu (misal: FROM python:3.9-slim-buster)
-# dengan image TensorFlow resmi
+# dengan image TensorFlow resmi. Ini paling penting.
 FROM tensorflow/tensorflow:2.13.0-cpu-python3.10
 
 # Tetapkan direktori kerja di dalam container
@@ -9,7 +9,7 @@ WORKDIR /app
 ENV PIP_NO_CACHE_DIR=1
 
 # Salin hanya requirements.txt terlebih dahulu untuk memanfaatkan Docker cache layer
-# Ini harus ada di root folder proyekmu, sejajar dengan Dockerfile
+# Pastikan requirements.txt ada di root folder proyekmu, sejajar dengan Dockerfile
 COPY requirements.txt .
 
 # Konfigurasi Virtual Environment
@@ -27,10 +27,11 @@ RUN python -m venv $VIRTUAL_ENV
 RUN /bin/bash -c "source ${VIRTUAL_ENV}/bin/activate && pip install -r requirements.txt"
 
 # Salin sisa kode aplikasi dari host ke container
+# Pastikan file Python utama (misal: app.py) ada di root folder proyekmu
 COPY . .
 
 # Paparkan port yang akan digunakan aplikasi Flask-mu
-EXPOSE 5000 
+EXPOSE 5000 # Ganti 5000 jika aplikasi Flask-mu berjalan di port lain
 
 # Perintah untuk menjalankan aplikasi saat container dimulai
 # Ganti 'app.py' dengan nama file Python utama yang menjalankan aplikasimu
