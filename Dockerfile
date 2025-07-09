@@ -18,7 +18,7 @@ RUN pip install --upgrade pip setuptools wheel
 RUN pip install -r requirements.txt
 
 # Salin semua kode ke container
-COPY . .
+COPY models/ models/
 
 EXPOSE 5000
 
